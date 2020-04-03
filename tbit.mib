@@ -1,0 +1,67 @@
+--- reco first mib 
+tbit DEFINITIONS ::= BEGIN
+    IMPORTS
+        enterprises, IpAddress, Integer32, Unsigned32, Counter64, 
+        OBJECT-TYPE         
+            FROM SNMPv2-SMI;
+    tbit OBJECT IDENTIFIER ::= { enterprises 66666 }
+    RecoDevice OBJECT IDENTIFIER ::= { tbit 1 }
+    RecoDevice1 OBJECT IDENTIFIER ::= { tbit 2 }
+    Name OBJECT-TYPE
+        SYNTAX OCTET STRING
+        MAX-ACCESS read-write
+        STATUS current
+        DESCRIPTION
+            "Description."
+        ::= { RecoDevice 1 }
+    RecoTable OBJECT-TYPE
+        SYNTAX SEQUENCE OF RecoEntry
+        MAX-ACCESS not-accessible
+        STATUS current
+        DESCRIPTION
+            "Description."
+        ::= { RecoDevice1 2 }
+    
+    RecoEntry OBJECT-TYPE
+        SYNTAX RecoEntry
+        MAX-ACCESS not-accessible
+        STATUS current
+        DESCRIPTION
+            "Description."
+        INDEX { RecoPonInx, RecoOnuInx }
+        ::= { RecoTable 1 }
+    RecoEntry ::=
+        SEQUENCE { 
+            RecoPonInx
+                INTEGER,
+            RecoOnuInx
+                INTEGER,
+            RecoOnuPName
+                OCTET STRING,
+            RecoAuthMode
+                INTEGER,
+            RecoAuthInfo
+                OCTET STRING
+         }
+    RecoPonInx OBJECT-TYPE
+        SYNTAX INTEGER (1..16)
+        MAX-ACCESS read-only
+        STATUS current
+        DESCRIPTION
+            "Description."
+        ::= { RecoEntry 1 }
+    RecoOnuInx OBJECT-TYPE
+        SYNTAX INTEGER (1..128)
+        MAX-ACCESS read-only
+        STATUS current
+        DESCRIPTION
+            "Description."
+        ::= { RecoEntry 2 }
+    RecoOnuPName OBJECT-TYPE
+        SYNTAX OCTET STRING
+        MAX-ACCESS read-only
+        STATUS current
+        DESCRIPTION
+            "Description."
+        ::= { RecoEntry 3 }
+END
