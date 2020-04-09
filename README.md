@@ -19,6 +19,7 @@
 # 通过mib browser记载mib文件，并发送trap到本机的trap接收器
 
 ![](a.png)
+![](b.png)
 
 # output 
         
