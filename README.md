@@ -96,3 +96,56 @@ varbinds共三个，其中
     END
     
     			
+看到这个设备可以trap的OID还是不少，希望从最简单的开始。我选择的是风扇。基本流程就是：
+
+1. 设置好守护进程，准备接受设备发过来的trap
+2. 在设备内填写trap 目标地址，也就是守护进程所在的电脑的ip
+3. 在设备内激活fan状态改变通知到trap
+4. 反复对设备fan的激活关闭，查看守护进程输出结果
+
+现在开始。
+
+首先准备好trapd，具体做法在此，记得一定使用-v参数，打印具体发过来的trap： 
+    
+    https://github.com/1000copy/tbit-guard-snmp
+    
+
+把自己的trapd所在电脑的ip地址设置到对应设备的snmptrap配置内
+
+![](https://user-gold-cdn.xitu.io/2020/4/26/171b55f76cf3b9fb?w=453&h=245&f=png&s=12516)
+
+还有必须在telnet命令行内，激活fan状态改变通知,因为对fan的all激活，因此状态变化时，会打印到terminal，也会trap发出到制定的trapd守护进程：
+
+
+    alarm fan all enable
+
+打印出来的varbinds内容很多，看着茫然无须，乱翻手册，看到在芯德的MIB手册内，58页面，也是最后一页，提到了发送trap的格式:
+
+    dataUpLinkPort,dataPon, dataOnu, dataPort, dataTrapOID, dataTrapClass, 
+    dataMac, dataTime, dateAlarmLevel, dataValue, dataAlarmType,
+    dataSynOID
+
+再使用Web UI打开风扇，
+
+![](https://user-gold-cdn.xitu.io/2020/4/26/171b55dcafc85116?w=408&h=141&f=png&s=7229)
+
+
+VarBinds内的第10个对象就是DataValue，我们希望buffer是一个字符串，值为”Close!“，结果不负期待：
+    
+    {
+        "oid": "1.3.6.1.4.1.37950.1.1.5.10.13.2.10.0",
+        "type": 4,
+        "value": {
+          "type": "Buffer",
+          "data": [67,08,11,15,01,33]
+        }
+    },
+    
+    var b = Buffer.from([67,08,11,15,01,33]).toString() // Close!
+
+再使用Web UI打开风扇，打印输出的结果：
+
+    > var b = Buffer.from([79,112,101,110, 33]).toString()
+    undefined
+    > b
+    'Open!'
