@@ -1,111 +1,26 @@
 var snmp = require ("net-snmp");
-
-
-var snmpOptions = {
-    disableAuthorization: true,
-    port: 161,    
-    debug:true,
-};
-
-var callback = function (error, data) {
+var agent = snmp.createAgent({}, function (error, data) {
     if ( error ) {
         console.error (error);
     } else {
         console.log (JSON.stringify(data.pdu.varbinds, null, 2));
     }
-};
-
-var agent = snmp.createAgent(snmpOptions, callback);
+});
 var authorizer = agent.getAuthorizer ();
 authorizer.addCommunity ("public");
-authorizer.addUser ({
-    name: "fred",
-    level: snmp.SecurityLevel.noAuthNoPriv
-});
-authorizer.addUser ({
-    name: "betty",
-    level: snmp.SecurityLevel.authNoPriv,
-    authProtocol: snmp.AuthProtocols.sha,
-    authKey: "illhavesomeauth"
-});
-authorizer.addUser ({
-    name: "wilma",
-    level: snmp.SecurityLevel.authPriv,
-    authProtocol: snmp.AuthProtocols.sha,
-    authKey: "illhavesomeauth",
-    privProtocol: snmp.PrivProtocols.des,
-    privKey: "andsomepriv"
-});
-// console.log(JSON.stringify(agent.getAuthorizer().getUsers(), null, 2));
-var prefix = '1.3.6.1.4.1.66666.'
-
 var scalarProvider = {
-    name: "sysDescr",
+    name: "RecoDevice",
     type: snmp.MibProviderType.Scalar,
-    oid: prefix+"1.1",
+    oid: "1.3.6.1.4.1.66666.1",
     scalarType: snmp.ObjectType.OctetString
 };
 agent.registerProvider (scalarProvider);
-var tableProvider = {
-    name: "ifTable",
-    type: snmp.MibProviderType.Table,
-    oid: prefix+"2.2.1",
-    tableColumns: [
-        {
-            number: 1,
-            name: "ifIndex",
-            type: snmp.ObjectType.Integer
-        },
-        {
-            number: 2,
-            name: "ifDescr",
-            type: snmp.ObjectType.OctetString
-        },
-        {
-            number: 3,
-            name: "ifType",
-            type: snmp.ObjectType.Integer
-        }
-    ],
-    tableIndex: [
-        {
-            columnName: "ifIndex"
-        }
-    ],
-    handler: function ifTable (mibRequest) {
-        // e.g. can update the table before responding to the request here
-        mibRequest.done ();
-    }
-};
-agent.registerProvider (tableProvider);
-
 var mib = agent.getMib ();
-mib.setScalarValue ("sysDescr", "Rage inside the machine!");
-mib.addTableRow ("ifTable", [1, "lo", 24]);
-mib.addTableRow ("ifTable", [2, "eth0", 6]);
-// mib.deleteTableRow ("ifTable", [2]);
-// mib.unregisterProvider ("ifTable");
-// mib.unregisterProvider ("sysDescr");
+mib.setScalarValue ("RecoDevice", "Rage inside the machine!");
+mib.dump ()
 
-// var store = snmp.createModuleStore ();
-// var providers = store.getProviders ("IF-MIB");
-// mib.registerProviders (providers);
+// $snmpget -v2c -cpublic 127.0.0.1 .1.3.6.1.4.1.66666.1.0
+// SNMPv2-MIB::sysDescr.0 = STRING: Rage inside the machine!
 
-//console.log (JSON.stringify (providers, null, 2));
-
-mib.dump ({
-    leavesOnly: true,
-    showProviders: true,
-    showValues: true,
-    showTypes: true
-});
-
-// var data = mib.getTableColumnDefinitions ("ifTable");
-// var data = mib.getTableCells ("ifTable", true);
-// var data = mib.getTableColumnCells ("ifTable", 2);
-// var data = mib.getTableRowCells ("ifTable", [1]);
-// mib.setTableSingleCell ("ifTable", 2, [2], "changed!");
-var data = mib.getTableSingleCell ("ifTable", 2, [2]);
-// var data = mib.getScalarValue ("sysDescr");
-
-console.log(JSON.stringify (data, null, 2));
+// $snmpset -v2c -cpublic 127.0.0.1 .1.3.6.1.4.1.66666.1.0 s "ab"
+// SNMPv2-MIB::sysDescr.0 = STRING: ab
