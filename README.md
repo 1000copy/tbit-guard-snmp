@@ -1,3 +1,24 @@
+## 设置huawei OLT的trap
+
+设置trap host
+
+display snmp-agent target-host
+snmp-agent target-host trap-hostname reco address 10.27.10.80 trap-paramsname test
+display system handshake
+config
+system handshake enable
+system handshake interval 10
+
+##  接收trap
+
+打开软件 mib browser ，点击菜单
+ 
+ | menu - tools - trap-receiver 
+ 
+点击绿色的run图标，可以每隔几分钟接收到华为发过来的uptime信息。
+
+## 正文
+
 今天在园区走了走，然后突然想明白了几天来思考的snmp trap的逻辑。结合若干工具
 
 1. node包node-net-snmp
