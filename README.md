@@ -93,28 +93,21 @@ varbinds共三个，其中
 
 # 附录：MIB文件内容
 
-    tbit DEFINITIONS ::= BEGIN
-        IMPORTS
-            enterprises, IpAddress, Integer32, Unsigned32, Counter64, 
-            OBJECT-TYPE,NOTIFICATION-TYPE
-                FROM SNMPv2-SMI;
-        tbit OBJECT IDENTIFIER ::= { enterprises 66666 }
-        RecoDevice OBJECT IDENTIFIER ::= { tbit 1 }
-        RecoDevice1 OBJECT IDENTIFIER ::= { tbit 2 }
-        Name OBJECT-TYPE
-            SYNTAX OCTET STRING
-            MAX-ACCESS read-write
-            STATUS current
-            DESCRIPTION
-                "Description."
-            ::= { RecoDevice 1 }
-    	dataAlarmTrap NOTIFICATION-TYPE
-    			OBJECTS { Name }
-    			STATUS current
-    			DESCRIPTION 
-    				"Description."
-    			::= { tbit 3 }
-    END
+	  tbit DEFINITIONS ::= BEGIN
+	    IMPORTS
+		enterprises, IpAddress, Integer32, Unsigned32, Counter64, 
+		OBJECT-TYPE,NOTIFICATION-TYPE
+		    FROM SNMPv2-SMI;
+	    tbit OBJECT IDENTIFIER ::= { enterprises 66666 }
+	    RecoDevice OBJECT-TYPE ::= { tbit 1 }
+	    RecoDevice1 OBJECT IDENTIFIER ::= { tbit 2 }    
+		dataAlarmTrap NOTIFICATION-TYPE
+				OBJECTS { Name }
+				STATUS current
+				DESCRIPTION 
+					"Description."
+				::= { tbit 3 }
+	END
     
     			
 ## fan状态监控 - 芯德第一个trap
