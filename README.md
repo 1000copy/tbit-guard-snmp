@@ -151,3 +151,32 @@ VarBinds内的第10个对象就是DataValue，我们希望buffer是一个字符�
     undefined
     > b
     'Open!'
+
+## translate
+
+## 把我自己的mib文件放到搜索目录
+
+	$ cd  /home/reco/.snmp/mibs
+	bash: cd: /home/reco/.snmp/mibs: No such file or directory
+	$ mkdir  /home/reco/.snmp/mibs -p
+	$ cd  /home/reco/.snmp/mibs
+	$ vi
+	>>paste file content here
+	
+## 注意
+
+前缀不是文件名，是模块名
+
+	$ snmptranslate -On reco.mib::tbit.RecoDevice
+	reco.mib::tbit.RecoDevice: Unknown Object Identifier (Sub-id not found: (top) -> reco)
+
+前缀是模块名
+
+	$ snmptranslate -On tbit::tbit.RecoDevice.0
+	.1.3.6.1.4.1.66666.1.0
+	$ snmptranslate -On tbit::tbit.RecoDevice1.0
+	.1.3.6.1.4.1.66666.2.0
+	$ snmptranslate -On tbit::tbit.RecoDevice.Name.0
+	.1.3.6.1.4.1.66666.1.1.0
+	$ snmptranslate -On tbit::tbit.dataAlarmTrap
+	.1.3.6.1.4.1.66666.3
