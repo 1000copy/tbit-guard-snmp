@@ -1,28 +1,22 @@
-var snmp = require ("../");
-var agent = snmp.createAgent({}, function (error, data) {
-    if ( error ) {
-        console.error (error);
-    } else {
-        console.log (JSON.stringify(data.pdu.varbinds, null, 2));
-    }
-});
+var key = "Answer to the Ultimate Question of Life, the Universe, and Everything"
+var snmp = require ("node-net-snmp");
+var agent = snmp.createAgent({});
 var authorizer = agent.getAuthorizer ();
 authorizer.addCommunity ("public");
 var scalarProvider = {
-    name: "RecoDevice",
+    name: key,
     type: snmp.MibProviderType.Scalar,
-    oid: "1.3.6.1.4.1.66666.1",
+    oid: "1",
     scalarType: snmp.ObjectType.OctetString
 };
 agent.registerProvider (scalarProvider);
 var mib = agent.getMib ();
-mib.setScalarValue ("RecoDevice", "Rage inside the machine!");
-mib.dump ()
-
-// $snmpget -v2c -cpublic 127.0.0.1 .1.3.6.1.4.1.66666.1.0
-// SNMPv2-MIB::sysDescr.0 = STRING: Rage inside the machine!
-
-// $snmpset -v2c -cpublic 127.0.0.1 .1.3.6.1.4.1.66666.1.0 s "ab"
-// SNMPv2-MIB::sysDescr.0 = STRING: ab
-//  加载了tbit.mib后，就可以这样查。省心多了。
-// snmpget -v2c -cpublic 127.0.0.1 tbit:RecoDevice.0
+mib.setScalarValue (key, "43");
+// 客户端使用net-snmp工具集来查询：
+// # snmpget -v2c -cpublic 127.0.0.1 .1.0
+// 复制代码
+// 返回结果：
+// iso.3.6.1 = STRING: "42"
+// 复制代码
+// 或者修改它：
+// $snmpset -v2c -cpublic 127.0.0.1 .1.0 s "43"
