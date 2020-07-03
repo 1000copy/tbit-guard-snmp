@@ -1,68 +1,70 @@
-https://en.wikipedia.org/wiki/Structure_of_Management_Information
 
-the Structure of Management Information (SMI), an adapted subset of ASN.1, operates in Simple Network Management Protocol (SNMP) to define sets ("modules") of related managed objects in a Management Information Base (MIB).
+管理信息结构(SMI)是ASN.1的改编子集，在简单网络管理协议(SNMP)中运行，以定义管理信息库(MIB)中相关管理对象的集合("模块")。
 
-SMI subdivides into three parts: 
+SMI细分为三个部分。
 
-- module definitions
-- object definitions,
-- notification definitions (aka "traps").
+- 模块定义
+- 对象定义。
+- 通知定义（也就是 "陷阱"）。
 
-Module definitions are used when describing information modules. An ASN .1 macro, MODULE-IDENTITY, is used to concisely convey the semantics of an information module.
+模块定义在描述信息模块时使用。ASN .1 宏 MODULE-IDENTITY 用于简明扼要地表达信息模块的语义。
 
-Object definitions describe managed objects. An ASN.1 macro, OBJECT-TYPE, is used to concisely convey the syntax and semantics of a managed object.
+对象定义描述管理对象。ASN.1 宏 OBJECT-TYPE 用于简明扼要地传达管理对象的语法和语义。
 
-Notification definitions are used when describing unsolicited transmissions of management information. An ASN.1 macro, NOTIFICATION-TYPE, concisely conveys the syntax and semantics of a notification.
+通知定义在描述管理信息的非调用传输时使用。ASN.1 宏 NOTIFICATION-TYPE 简明地传达了通知的语法和语义。
 
-NOTE: https://blog.paessler.com/snmp-deep-dive-how-smi-contributes-to-snmp
-
-
-## The Need for Independence
-
-As you surely remember, the communication partners in an SNMP conversation are the
-
-    managing entity and the 
-    managed devices. 
-
-They send and receive messages containing management information through the network via SNMP, no matter what operating systems, programming languages, and compilers are involved.
-
-Obviously, independence is what you need to achieve. To be independent from operating systems, programming languages, and other sorts of components that create difference. How does SNMP become free? 
-
-## The answer is
-
-Structure! More precisely, a commonly understood and standardized structure, known as SMI (which stands for Structure of Management Information).
-
-Firstly, this includes a **type-structure for the data** that you use when using SNMP, or, in other words, a definition for the description of integers, strings, OIDs, and so on. 
-
-And secondly, you need a binary mapping structure to express what happens to these data types, i.e. you need rules for how to transmit these data types in networks. Thanks to these definitions, the format becomes clear and independent. And since the format is a known standard, any machine in your network can receive and "understand" a given piece of SNMP management information and then decide on how to store it in the format that corresponds to its architecture. Of course, these principles also apply to the sending part of the SNMP communication.
-
-## SMI - The Structure of Management Information
-
-Remember, for the Structure of Management Information to create independency, we need definitions for
-
-    the data types that are used, and
-    the rules that apply to the information transfer.
-
-The definition of SMI data types is derived from ASN.1 (Abstract Syntax Notation One). We can only cover a very small and simple subset of ASN.1 here. If you want more, check out, for example, ASN.1 related ISO/OSI sources.
-
-The ASN.1/SMI data types can be broken down into two categories: 
-    simple or basic
-    complex or higher-level 
-
-Let's look at an example of both data types. 
-
-## Basic Data Types
+注：https://blog.paessler.com/snmp-deep-dive-how-smi-contributes-to-snmp
 
 
-There's one basic data type that you must have heard about when dealing with SNMP. It is the OBJECT IDENTIFIER, or OID. The most common notation is the sequence of digits, for example
+∮∮独立的必要性∮
+
+你肯定还记得，SNMP对话中的通信伙伴是
+
+    管理实体和
+    被管理的设备。
+
+它们通过网络通过SNMP发送和接收包含管理信息的消息，无论涉及什么操作系统、编程语言和编译器。
+
+显然，独立性是你需要实现的。要独立于操作系统、编程语言和其他各种产生差异的组件。SNMP如何变得自由？
+
+## 答案是
+
+结构! 更准确的说，是一种普遍理解的标准化结构，即SMI(管理信息结构的缩写)。
+
+首先，这包括你在使用SNMP时的数据类型结构，换句话说，就是对整数、字符串、OID等的描述定义。
+
+其次，你需要一个二进制的映射结构来表达这些数据类型的情况，也就是说，你需要规则来说明如何在网络中传输这些数据类型。
+
+由于有了这些定义，格式变得清晰而独立。而且由于格式是一个已知的标准，所以你网络中的任何一台机器都可以接收并 "理解"一个给定的SNMP管理信息，然后决定如何以与其架构相对应的格式存储这些信息。当然，这些原则也适用于SNMP通信的发送部分。
+
+## SMI - 管理信息的结构
+
+请记住，要想让管理信息结构产生独立性，我们需要定义以下内容
+
+    使用的数据类型，以及
+    适用于信息传输的规则。
+
+SMI数据类型的定义来源于ASN.1（抽象语法符号一）。我们在这里只能涵盖ASN.1的一个非常小的、简单的子集。如果你想了解更多的内容，请查看，例如，ASN.1相关的ISO/OSI资料。
+
+ASN.1/SMI的数据类型可以分为两类:
+
+    简单或基本
+    复杂或更高层次 
+
+让我们看看这两种数据类型的一个例子。
+
+## 基本数据类型
+
+
+在与SNMP打交道的时候，有一种基本的数据类型你一定听说过。它就是 OBJECT IDENTIFIER，即 OID。最常见的记法是数字序列，例如
 
     1.3.6.1.2.1.2
 
-This OID includes the names of the respective OID tree nodes if you note it as defined in ASN.1 (You can find out more about the actual definition of OBJECT IDENTIFIER in the table below):
+这个OID包括了各自OID树节点的名称，如果你注意到它是ASN.1中定义的（你可以在下表中找到更多关于OBJECT IDENTIFIER的实际定义）。
 
-    {iso(1) identified-organization(3) dod(6) internet(1) mgmt(2) mib-2(1)}
+    {iso(1) identified-organization(3) dod(6) internet(1) mgmt(2) mib-2(1)}。
 
-In total, there are 11 basic data types for SMI MIB modules that have been defined in RFC-2578:
+RFC-2578中共定义了11种SMI MIB模块的基本数据类型。
 
     INTEGER
     Integer32
@@ -76,64 +78,16 @@ In total, there are 11 basic data types for SMI MIB modules that have been defin
     TimeTicks
     Opaque
     
- Here is an insight into some data type descriptions:
+ 下面是对一些数据类型描述的深入了解。
 
-    Data Type	Description
-    INTEGER	    32-bit integer with a value between -2^31 and 2^31-1 inclusive, or a value from a list of possible named constant values
-    OCTET STRING byte string representing arbitrary binary or textual data, up to 65,535 bytes long
-    OBJECT IDENTIFIER	Its value is an ordered list of non-negative numbers, each called a sub-identifier. Maximum is 128 sub-identifiers (tuples), each one having a maximum value of 2^31-1.
-    Opaque	uninterpreted ASN.1 value, needed for backward compatibility
+    数据类型描述
+    INTEGER 32位整数，其值介于-2^31和2^31-1（含）之间，或从可能的命名常量值列表中取值。
+    OCTET STRING 字节串，代表任意二进制或文本数据，最长65,535字节。
+    OBJECT IDENTIFIER 它的值是一个非负数的有序列表，每个列表称为一个子标识符。最大是128个子标识符（tuple），每个子标识符的最大值为2^31-1。
+    不透明的未解释的ASN.1值，需要向后兼容。
 
-However, these are not the only basic data types, there are many more data types out there in the internet.
+然而，这些并不是唯一的基本数据类型，互联网中还有很多数据类型。
 
-## Higher Level Constructs
+## 更高级别的结构
 
-Remember the MIB-2, one of the most important standard MIB module for SNMP? One of its sub-MIB modules is the Interfaces-MIB file (also well known as IF-MIB). You can find it in RFC 1213. Among many others, it contains the ifPhysAddress entry, an instance of the higher-level construct OBJECT-TYPE, which is used to specify the data type, status, and semantics of a managed object, in this case the physical address of an interface.
-    
-    ifPhysAddress OBJECT-TYPE
-         SYNTAX PhysAddress
-         ACCESS read-only
-         STATUS mandatory
-         DESCRIPTION
-              “The interface’ address at the protocol layer
-              immediately ‘below’ the network layer in the
-              protocol stack. For interfaces which do not have
-              such an address (e.g., a serial line), this object
-              should contain an octet string of zero length.”
-         : := { ifEntry 6 }
-
-
-PS: How do you know which OID belongs to the object ifPhysAddress? Take the OID of ifEntry and add a 6! (Umm... What is an OID?)
-
-Other higher-level constructs are, for example, the MODULE IDENTITY and NOTIFICATION TYPE constructs. You want more? See RFC 2578.
-
-## BER - Basic Encoding Rules
-
-After defining the data types and constructs, it's now time to take a look at the rules that define how SMI object instances are sent through a network. They are called Basic Encoding Rules . The structure that they provide is TLV - which means Type, Length, and Value. This order is always the same. Yes, always. This way, a byte stream sent through a network is recognized immediately on every machine. Let's illustrate this with (part of) an SNMP message, say, an SNMP request. Every request needs a request ID. For our example, we will use the ID 9336.
-
-    The question is: What are the bytes transferred in your network that convey the information 9336 in the context of an SNMP request ID?
-    The answer is: The bytes transferred are 02 02 24 78 (hex), assuming **big-endian order**.
-
-Why is that? Because 02 is Type, 02 is Length, and 24 87 is Value. And according to BER, the order is T-L-V.
-What does this mean? 02 02 24 78 means that the data type is an integer (02 stands for integer) with a length of 2 bytes and a value of 9336.
- 
-
-    Binary value	0010	0010	0010  0100  0111  1000
-    Bytestream (hex value)	02	02	24 87
-    BER	Type	Length	Value
-    Meaning	Integer	2 Bytes	9336
-    Direction	→	→	→
-
-With these rules in place, every entity in the SNMP communication knows exactly how to interpret the sent or received bytes and translate them to the defined data types and constructs, regardless of the entity's own implementation and platform.
-
-Wrapping It Up
-
-SMI offers a unified basis for definitions that regard the management information and their transfer in networks, for the sake of platform independence. SMI belongs to MIB and MIB belongs to SNMP. They are all inextricably tied together.
-
-New Horizons
-Stay tuned on our SNMP blog series if at least one of the following questions has already crossed your mind:
-
-What's behind SNMP, its versions, and FCAPS?
-How do I enable SNMP on Windows, Linux, or MacOS?
-What exactly are OIDs and MIB and why should every admin have heard of them?
-SNMP doesn't work, can somebody out there help me!?
+还记得SNMP最重要的标准MIB模块之一MIB-2吗？它的一个子MIB模块是Interfaces-MIB文件（也很好地称为IF-MIB）。你可以在RFC 1213中找到它。其中，它包含ifPhysAddress条目，这是一个上层构造OBJECT-TYPE的实例，用于指定一个管理对象的数据类型、状态和语义，在这种情况下，就是接口的物理地址。
