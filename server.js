@@ -2,7 +2,7 @@ var snmp = require ("net-snmp");
 
 
 var snmpOptions = {
-    disableAuthorization: true,
+    // disableAuthorization: true,
     port: 161,    
     debug:true,
 };
@@ -18,6 +18,7 @@ var callback = function (error, data) {
 var agent = snmp.createAgent(snmpOptions, callback);
 var authorizer = agent.getAuthorizer ();
 authorizer.addCommunity ("public");
+authorizer.addCommunity ("private");
 authorizer.addUser ({
     name: "fred",
     level: snmp.SecurityLevel.noAuthNoPriv
