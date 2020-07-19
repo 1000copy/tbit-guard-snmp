@@ -13,14 +13,18 @@ session.get (oids, function (error, varbinds) {
             else
                 console.log (varbinds[i].oid + " = " + varbinds[i].value);
     }    
-    session.table (prefix+"2.2", function (error, table) {
-        if (error) {
-            console.error (error);
-        } else {
-            console.log (table);
-        }
-        session.close ();
-    });
+    // session.table (prefix+"2.2", function (error, table) {
+    //     if (error) {
+    //         console.error (error);
+    //     } else {
+    //         console.log (table);
+    //     }
+    //     session.close ();
+    // });
+});
+session.trap (snmp.TrapType.LinkDown, function (error) {
+    if (error)
+        console.error (error);
 });
 // snmptable -v 2c -c public  localhost .1.3.6.1.2.1.2.2
 /*
