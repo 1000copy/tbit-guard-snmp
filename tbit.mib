@@ -1,9 +1,6 @@
 --- reco 2nd mib 
 tbitinc DEFINITIONS ::= BEGIN
-    IMPORTS
-        enterprises, IpAddress, Integer32, Unsigned32, Counter64, 
-        OBJECT-TYPE         
-            FROM SNMPv2-SMI;
+    IMPORTS  enterprises,OBJECT-TYPE,NOTIFICATION-TYPE FROM SNMPv2-SMI;
     tbit OBJECT IDENTIFIER ::= { enterprises 66666 }
     RecoSecret OBJECT-TYPE
         SYNTAX OCTET STRING
