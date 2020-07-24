@@ -45,3 +45,23 @@ setTimeout(a,3000)
 
 
 // info 
+// snmpget -v2c -cpublic localhost 1.3.6.1.4.1.66666.1.0
+
+
+// Snmptrapd.conf
+// This is required to specify community you described in SNMP Trap package configuration, to describe Trap port and how to handle caught Trap messages.
+// Edit snmptrapd.conf file, it can be found in /etc/snmp/ directory. Example of the command:
+
+// 配置conf
+// $ sudo nano /etc/snmp/snmptrapd.conf
+
+// authcommunity log,execute,net public
+
+// 启动守护进程
+// snmptrapd -f -Le -F  "%02.2h:%02.2j from %B %v\n"
+// -f Do not fork() from the calling shell.
+// -L[efos] Specify where logging output should be directed (standard error or output, to a file or via syslog)
+
+// 发送一个trap
+// snmptrap -v 2c -c public 127.0.0.1:162 .1.3.6.1.4.1.3.1.1.5.3 1.3.6.1.4.1.66666.1
+// snmpinform -v 2c -c public 127.0.0.1:162 .1.3.6.1.4.1.3.1.1.5.3 1.3.6.1.4.1.66666.1
