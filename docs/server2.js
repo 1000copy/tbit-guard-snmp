@@ -26,3 +26,6 @@ mib.dump ()
 // SNMPv2-MIB::sysDescr.0 = STRING: ab
 //  加载了tbit.mib后，就可以这样查。省心多了。
 // snmpget -v2c -cpublic 127.0.0.1 tbit:RecoDevice.0
+
+// snmpget -v2c -cpublic 10.27.10.16 .1.3.6.1.2.1.31.1.1
+// snmpget -v2c -cpublic 10.27.10.16 .1.3.6.1.2.1.1.1.0
