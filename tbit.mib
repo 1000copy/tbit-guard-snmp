@@ -3,7 +3,7 @@ tbitinc DEFINITIONS ::= BEGIN
     IMPORTS  enterprises,OBJECT-TYPE,NOTIFICATION-TYPE FROM SNMPv2-SMI;
     tbit OBJECT IDENTIFIER ::= { enterprises 66666 }
     RecoSecret OBJECT-TYPE
-        SYNTAX OCTET STRING
+        SYNTAX INTEGER
         MAX-ACCESS read-write
         STATUS current
         DESCRIPTION
