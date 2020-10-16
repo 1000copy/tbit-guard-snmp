@@ -23,7 +23,7 @@ acm.setCommunityAccess ("public", snmp.AccessLevel.ReadOnly);
 acm.setCommunityAccess ("private", snmp.AccessLevel.ReadWrite);
 // provider
 var store = snmp.createModuleStore ();
-store.loadFromFile (__dirname +"\\" + "mib\\tempo.mib");
+store.loadFromFile (__dirname +"\\" + "mib\\ex2.mib");
 var providers = store.getProvidersForModule ("TEMPO");
 
 // var providers = {
