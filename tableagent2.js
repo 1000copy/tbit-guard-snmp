@@ -1,3 +1,11 @@
+// snmptable -v2c -cpublic localhost 1.3.6.1.4.1.66666.2.1
+
+// Unlike most of the other tools, snmptable *must*
+// have the relevant MIB module loaded.   The fact that
+// it's reporting an error with "enterprises.27594.3.6 "
+// rather than a name, strongly implies that it hasn't
+// loaded your module.
+
 var oid = '1.3.6.1.4.1.66666.1'
 // agent
 var snmp = require ("net-snmp");
@@ -15,10 +23,8 @@ acm.setCommunityAccess ("public", snmp.AccessLevel.ReadOnly);
 acm.setCommunityAccess ("private", snmp.AccessLevel.ReadWrite);
 // provider
 var store = snmp.createModuleStore ();
-store.loadFromFile ("C:\\GitHub\\test2\\tbit-guard-snmp\\tbittable.mib");
-var jsonModule = store.getModule ("tbitinc");
-console.log(jsonModule)
-var providers = store.getProvidersForModule ("tbitinc");
+store.loadFromFile (__dirname +"\\" + "mib\\tempo.mib");
+var providers = store.getProvidersForModule ("TEMPO");
 
 // var providers = {
 //     name: "ifTable",
@@ -40,13 +46,10 @@ var providers = store.getProvidersForModule ("tbitinc");
 //         {
 //             columnName: "ifIndex"
 //         }
-//     ],
-//     handler: function ifTable (mibRequest) {
-//         mibRequest.done ();
-//     }
+//     ]
 // };
 console.log(providers)
-agent.registerProvider (providers);
+agent.registerProvider (providers[0]);
 var mib = agent.getMib ();
 mib.addTableRow ("ifTable", [1, 24]);
 mib.addTableRow ("ifTable", [2, 6]);

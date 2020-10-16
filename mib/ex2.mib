@@ -1,0 +1,45 @@
+TEMPO DEFINITIONS ::= BEGIN
+IMPORTS
+    enterprises,MODULE-IDENTITY, OBJECT-TYPE, Integer32 FROM SNMPv2-SMI;
+TEMPO MODULE-IDENTITY
+    LAST-UPDATED "200406150000Z"
+    ORGANIZATION ""
+    CONTACT-INFO ""
+    DESCRIPTION "comment"
+    REVISION     "200406150000Z"    
+    DESCRIPTION "comment"
+    ::= { enterprises 66666 }
+ifSomeTable OBJECT-TYPE
+    SYNTAX      SEQUENCE OF TempoEntryType
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+	""
+    ::= { TEMPO 2 }
+
+ifTable OBJECT-TYPE
+    SYNTAX      TempoEntryType
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION
+	"A row describing a given working group"
+    INDEX   { tempoIndex }
+    ::= {ifSomeTable 1 }
+TempoEntryType ::= SEQUENCE {
+	tempoIndex	Integer32
+    tempoValue  Integer32
+}
+tempoIndex OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION ""
+    ::= { ifTable 1 }
+tempoValue OBJECT-TYPE
+    SYNTAX      Integer32
+    MAX-ACCESS  not-accessible
+    STATUS      current
+    DESCRIPTION ""
+    ::= { ifTable 2 }
+placeholder OBJECT IDENTIFIER ::= { TEMPO 3 }
+END
